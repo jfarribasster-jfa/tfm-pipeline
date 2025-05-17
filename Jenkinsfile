@@ -30,7 +30,26 @@ pipeline {
             alwaysPull true
         }
     }
+    environment {
+        AWS_REGION = "us-east-1"
+        CLUSRTER-NAME = "fabulous-metal-sheepdog"
+    }
     stages {
+        stage('login') {   
+            post {
+                failure {
+                    updateGitlabCommitStatus name: 'login', state: 'failed'
+                    echo 'Login failed' 
+                }       
+                success {
+                    updateGitlabCommitStatus name: 'login', state: 'success'
+                    echo 'Login successful'
+                }
+            }
+            steps {
+                this.login()
+            }
+        }    
         stage('Build') {
             steps {
                 echo 'Building...'
@@ -48,3 +67,26 @@ pipeline {
         }
     }
 }
+/**
+ * Login to AWS
+ */  
+ def login() {
+    withCredentials([
+        string(credentialsId: 'aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
+        string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY'),
+        string(credentialsId: 'aws-session-token', variable: 'AWS_SESSION_TOKEN')
+    ]) {
+    sh '''
+        echo "Configurando acceso a EKS..."
+        aws eks update-kubeconfig --region ${AWS_REGION} --name ${CLUSRTER-NAME}
+
+        echo "Ejecutando kubectl..."
+        kubectl get ns
+    '''
+    echo "Configurando acceso a EKS..."}
+    echo "Ejecutando kubectl..."
+    sh '''
+        kubectl get ns
+    '''
+    echo "Login complete"
+ }                    
