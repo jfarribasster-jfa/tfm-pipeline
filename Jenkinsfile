@@ -46,7 +46,7 @@ pipeline {
                     echo "¿Dónde estoy?:"
                     hostname
                     echo "¿Hay Docker?"
-                    docker --version
+                    docker --version 
                 '''
             }
         }    
