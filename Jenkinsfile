@@ -68,13 +68,14 @@ pipeline {
     ]) {
         sh '''
             echo "Autenticando en AWS..."
-            aws sts get-caller-identity
+            //aws sts get-caller-identity
 
             echo "Configurando acceso a EKS..."
-            aws eks update-kubeconfig --region ${AWS_REGION} --name ${CLUSTER_NAME}
+            //aws eks update-kubeconfig --region ${AWS_REGION} --name ${CLUSTER_NAME}
 
             echo "Ejecutando kubectl..."
-            kubectl get ns
+            //kubectl get ns
+            ls -la
         '''   
     }
  }                    
