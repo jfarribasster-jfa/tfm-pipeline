@@ -40,7 +40,6 @@ pipeline {
                 //this.login()
                 sh '''
                     echo "Contenedor lanzado correctamente"
-                    whoami
                     pwd
                     ls -lrt
                 '''
