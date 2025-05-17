@@ -31,8 +31,8 @@ pipeline {
         }
     }
     environment {
-        AWS_REGION = "us-east-1"
-        CLUSRTER-NAME = "tfm-cluster-jfa"
+        AWS_REGION="us-east-1"
+        CLUSRTER-NAME="tfm-cluster-jfa"
     }
     stages {
         stage('login') {   
