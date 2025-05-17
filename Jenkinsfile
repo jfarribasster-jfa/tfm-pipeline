@@ -66,22 +66,15 @@ pipeline {
         string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY'),
         string(credentialsId: 'aws-session-token', variable: 'AWS_SESSION_TOKEN')
     ]) {
-        withEnv([
-            "AWS_REGION=${region}",
-            "AWS_DEFAULT_REGION=${region}",
-            "CLUSTER_NAME=${cluster}"
-        ]) {
-            sh '''
-                echo "Autenticando en AWS..."
-                aws sts get-caller-identity
+        sh '''
+            echo "Autenticando en AWS..."
+            aws sts get-caller-identity
 
-                echo "Configurando acceso a EKS..."
-                aws eks update-kubeconfig --region ${AWS_REGION} --name ${CLUSTER_NAME}
+            echo "Configurando acceso a EKS..."
+            aws eks update-kubeconfig --region ${AWS_REGION} --name ${CLUSTER_NAME}
 
-                echo "Ejecutando kubectl..."
-                kubectl get ns
-            '''
-        }
-
+            echo "Ejecutando kubectl..."
+            kubectl get ns
+        '''   
     }
  }                    
