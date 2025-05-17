@@ -37,8 +37,12 @@ pipeline {
     stages {
         stage('login') {   
             steps {
-                this.login()
-            }
+                //this.login()
+                sh '''
+                    echo "Using!"
+                    ls -la
+                '''
+            }   
         }    
         stage('Build') {
             steps {
