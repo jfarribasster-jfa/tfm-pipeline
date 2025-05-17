@@ -39,9 +39,14 @@ pipeline {
             steps {
                 //this.login()
                 sh '''
-                    echo "Contenedor lanzado correctamente"
-                    pwd
-                    ls -lrt
+                    echo "Verificando entorno:"
+                    cat /etc/os-release
+                    echo "Usuario:"
+                    whoami
+                    echo "¿Dónde estoy?:"
+                    hostname
+                    echo "¿Hay Docker?"
+                    docker --version
                 '''
             }
         }    
