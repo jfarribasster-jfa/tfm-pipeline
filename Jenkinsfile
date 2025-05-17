@@ -66,17 +66,12 @@ pipeline {
         string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY'),
         string(credentialsId: 'aws-session-token', variable: 'AWS_SESSION_TOKEN')
     ]) {
-    sh '''
-        echo "Configurando acceso a EKS..."
-        aws eks update-kubeconfig --region ${AWS_REGION} --name ${CLUSTER_NAME}
+        sh '''
+            echo "Configurando acceso a EKS..."
+            aws eks update-kubeconfig --region ${AWS_REGION} --name ${CLUSTER_NAME}
 
-        echo "Ejecutando kubectl..."
-        kubectl get ns
-    '''
-    echo "Configurando acceso a EKS..."}
-    echo "Ejecutando kubectl..."
-    sh '''
-        kubectl get ns
-    '''
-    echo "Login complete"
+            echo "Ejecutando kubectl..."
+            kubectl get ns
+        '''
+    }
  }                    
