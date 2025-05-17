@@ -32,7 +32,7 @@ pipeline {
     }
     environment {
         AWS_REGION = "us-east-1"
-        CLUSRTER-NAME = "fabulous-metal-sheepdog"
+        CLUSRTER-NAME = "tfm-cluster-jfa"
     }
     stages {
         stage('login') {   
