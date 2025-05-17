@@ -37,7 +37,13 @@ pipeline {
     stages {
         stage('login') {   
             steps {
-                this.login()
+                //this.login()
+                sh '''
+                    echo "Contenedor lanzado correctamente"
+                    whoami
+                    pwd
+                    ls -lrt
+                '''
             }
         }    
         stage('Build') {
