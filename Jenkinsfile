@@ -36,16 +36,6 @@ pipeline {
     }
     stages {
         stage('login') {   
-            post {
-                failure {
-                    updateGitlabCommitStatus name: 'login', state: 'failed'
-                    echo 'Login failed' 
-                }       
-                success {
-                    updateGitlabCommitStatus name: 'login', state: 'success'
-                    echo 'Login successful'
-                }
-            }
             steps {
                 this.login()
             }
