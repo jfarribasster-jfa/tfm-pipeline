@@ -25,7 +25,7 @@ pipeline {
     agent {
         docker {
             image "497577049231.dkr.ecr.us-east-1.amazonaws.com/tfm/jenkins-agent:1.0"
-            args "-v /var/run/docker.sock:/var/run/docker.sock --security-opt seccomp=unconfined"
+            args "-u jenkins -v /var/run/docker.sock:/var/run/docker.sock --security-opt seccomp=unconfined"
             reuseNode true
             alwaysPull true
         }
