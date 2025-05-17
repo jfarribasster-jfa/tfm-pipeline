@@ -38,10 +38,10 @@ pipeline {
         stage('login') {   
             steps {
                 //this.login()
-                sh '''
-                    echo "Using!"
-                    ls -la
-                '''
+                sh 'echo "Hello from Jenkins container"'
+                sh 'whoami'
+                sh 'which sh'
+                sh 'ls -la /bin'
             }   
         }    
         stage('Build') {
