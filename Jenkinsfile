@@ -40,13 +40,7 @@ pipeline {
                 //this.login()
                 sh '''
                     echo "Verificando entorno:"
-                    cat /etc/os-release
-                    echo "Usuario:"
-                    whoami
-                    echo "¿Dónde estoy?:"
-                    hostname
-                    echo "¿Hay Docker?"
-                    docker --version 
+                    ls -lrt 
                 '''
             }
         }    
