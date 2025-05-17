@@ -31,8 +31,8 @@ pipeline {
         }
     }
     environment {
-        AWS_REGION="us-east-1"
-        CLUSRTER-NAME="tfm-cluster-jfa"
+        AWS_REGION = "us-east-1"
+        CLUSTER_NAME = "tfm-cluster-jfa"
     }
     stages {
         stage('login') {   
@@ -78,7 +78,7 @@ pipeline {
     ]) {
     sh '''
         echo "Configurando acceso a EKS..."
-        aws eks update-kubeconfig --region ${AWS_REGION} --name ${CLUSRTER-NAME}
+        aws eks update-kubeconfig --region ${AWS_REGION} --name ${CLUSTER_NAME}
 
         echo "Ejecutando kubectl..."
         kubectl get ns
