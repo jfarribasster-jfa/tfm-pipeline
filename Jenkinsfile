@@ -40,7 +40,8 @@ pipeline {
                 //this.login()
                 sh '''
                     echo "Verificando entorno:"
-                    ls -lrt 
+                    ls -lrt
+                    pwd
                 '''
             }
         }    
