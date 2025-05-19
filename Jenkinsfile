@@ -24,7 +24,7 @@ node {
 pipeline {
     agent {
         docker {
-            image 'gradle:8.14.0-jdk21-alpine'
+            image "497577049231.dkr.ecr.us-east-1.amazonaws.com/tfm/jenkins-agent:1.0"
             reuseNode true
             alwaysPull true
         }
@@ -36,7 +36,6 @@ pipeline {
     stages {
         stage('login') {   
             steps {
-                sh 'gradle -g gradle-user-home --version'
                 //this.login()
                 sh '''
                     echo "Verificando entorno:"
