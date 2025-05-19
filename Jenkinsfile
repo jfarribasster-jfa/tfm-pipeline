@@ -69,8 +69,7 @@ pipeline {
             echo "Autenticando en AWS..."
             aws sts get-caller-identity
 
-            echo "Configurando acceso a EKS..."
-            ls -la
+            echo "Configurando acceso a EKS..."s
             aws eks update-kubeconfig --region ${AWS_REGION} --name ${CLUSTER_NAME}
 
             echo "Ejecutando kubectl..."
