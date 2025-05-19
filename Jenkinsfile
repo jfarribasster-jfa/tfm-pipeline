@@ -36,12 +36,7 @@ pipeline {
     stages {
         stage('login') {   
             steps {
-                //this.login()
-                sh '''
-                    echo "Verificando entorno:"
-                    ls -lrt
-                    pwd
-                '''
+                this.login()
             }
         }    
         stage('Build') {
