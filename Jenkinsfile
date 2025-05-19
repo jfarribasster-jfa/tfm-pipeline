@@ -70,7 +70,9 @@ pipeline {
             aws sts get-caller-identity
 
             echo "Configurando acceso a EKS..."s
-            aws eks update-kubeconfig --region ${AWS_REGION} --name ${CLUSTER_NAME}
+            //aws eks update-kubeconfig --region ${AWS_REGION} --name ${CLUSTER_NAME}
+            aws eks update-kubeconfig --region us-east-1 --name tfm-cluster-jfa --alias tfm --profile default
+            cat ~/.kube/config | grep server
 
             echo "Ejecutando kubectl..."
             kubectl get ns
