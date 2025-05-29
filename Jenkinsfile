@@ -15,7 +15,7 @@ node {
                 echo "Verificando credenciales de AWS..."
                 aws sts get-caller-identity
                 echo "Iniciando sesión en ECR..."
-                aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 497577049231.dkr.ecr.us-east-1.amazonaws.com
+                aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 186753268376.dkr.ecr.us-east-1.amazonaws.com/tfm/jenkins-agent
             '''
         }
     } 
