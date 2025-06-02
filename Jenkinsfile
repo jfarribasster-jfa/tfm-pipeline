@@ -20,12 +20,12 @@ node {
         }
     }
     def REPO_URL = scm.userRemoteConfigs[0].url
-    checkout ([
-        $class: 'GitSCM',
-        branches: [[name: "*/${env.BRANCH_NAME}"]],
-        userRemoteConfigs: [[url: scm.userRemoteConfigs[0].url, credentialsId: 'UserGitHub']]
-    ])
-    datas = readYaml file: 'build.yaml'  
+    // checkout ([
+    //     $class: 'GitSCM',
+    //     branches: [[name: "*/${env.BRANCH_NAME}"]],
+    //     userRemoteConfigs: [[url: scm.userRemoteConfigs[0].url, credentialsId: 'UserGitHub']]
+    // ])
+    // datas = readYaml file: 'build.yaml'  
 }
 
 pipeline {
