@@ -21,14 +21,12 @@ node {
     }
     checkout scm
 
-    def repourl = env.GITHUB_REPO_GIT_URL
-    echo "📦 Repositorio actual: ${repourl}"
-    // checkout ([
-    //     $class: 'GitSCM',
-    //     branches: [[name: "*/${env.BRANCH_NAME}"]],
-    //     userRemoteConfigs: [[url: scm.userRemoteConfigs[0].url, credentialsId: 'UserGitHub']]
-    // ])
-    // datas = readYaml file: 'build.yaml'  
+    checkout ([
+        $class: 'GitSCM',
+        branches: [[name: "*/${env.GITHUB_PR_TARGET_BRANCH}"]],
+        userRemoteConfigs: [[url: env.GITHUB_REPO_GIT_URL, credentialsId: 'UserGitHub']]
+    ])
+    datas = readYaml file: 'build.yaml'  
 }
 
 pipeline {
@@ -42,13 +40,11 @@ pipeline {
     environment {
         AWS_REGION = "us-east-1"
         CLUSTER_NAME = "tfm-cluster-jfa"
-        REPO_URL = "${repourl}"
     }
     stages {
         stage('login') {   
             steps {
                 echo 'login...'
-                echo "REPO_URL: ${REPO_URL}"
                 //this.login()
             }
         }    
