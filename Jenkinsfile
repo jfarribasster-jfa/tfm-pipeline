@@ -42,7 +42,7 @@ pipeline {
     stages {
         stage('login') {   
             steps {
-                this.login()
+                //this.login()
             }
         }    
         stage('Build') {
