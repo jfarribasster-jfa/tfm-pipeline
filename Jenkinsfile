@@ -19,7 +19,7 @@ node {
             '''
         }
     }
-    
+    def REPO_URL = scm.userRemoteConfigs[0].url
     checkout ([
         $class: 'GitSCM',
         branches: [[name: "*/${env.BRANCH_NAME}"]],
@@ -39,7 +39,7 @@ pipeline {
     environment {
         AWS_REGION = "us-east-1"
         CLUSTER_NAME = "tfm-cluster-jfa"
-        REPO_URL = scm.userRemoteConfigs[0].url
+        REPO_URL = 
 
     }
     stages {
