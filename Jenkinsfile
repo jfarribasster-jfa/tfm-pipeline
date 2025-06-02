@@ -19,6 +19,7 @@ node {
             '''
         }
     }
+    checkout scm
     def repourl= scm.userRemoteConfigs[0].url
     // checkout ([
     //     $class: 'GitSCM',
