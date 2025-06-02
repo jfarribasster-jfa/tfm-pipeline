@@ -20,11 +20,12 @@ node {
         }
     }
     checkout scm
-
+    def repoUrl = env.GITHUB_REPO_GIT_URL?.replaceFirst('git://', 'https://') ?: 'https://github.com/user/repo.git'
+    def branch = env.GITHUB_PR_TARGET_BRANCH ?: 'main'
     checkout ([
         $class: 'GitSCM',
-        branches: [[name: "*/${env.GITHUB_PR_TARGET_BRANCH}"]],
-        userRemoteConfigs: [[url: env.GITHUB_REPO_GIT_URL, credentialsId: 'UserGitHub']]
+        branches: [[name: "*/${branch}"]],
+        userRemoteConfigs: [[url: repoUrl, credentialsId: 'UserGitHub']]
     ])
     datas = readYaml file: 'build.yaml'  
 }
