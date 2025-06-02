@@ -28,9 +28,7 @@ node {
         branches: [[name: "*/${branch}"]],
         userRemoteConfigs: [[url: repoUrl, credentialsId: 'UserGitHub']]
     ])
-    // 💡 Verifica ubicación y contenido
-    sh 'ls -lrt'
-    datas = readYaml file: 'build.yaml'  
+    datas = readYaml file: 'build.yml'  
 }
 
 pipeline {
