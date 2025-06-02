@@ -19,7 +19,7 @@ node {
             '''
         }
     }
-    def REPO_URL = scm.userRemoteConfigs[0].urls
+    def REPO_URL = scm.userRemoteConfigs[0].url
     checkout ([
         $class: 'GitSCM',
         branches: [[name: "*/${env.BRANCH_NAME}"]],
