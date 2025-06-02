@@ -20,7 +20,9 @@ node {
         }
     }
     checkout scm
-    def repourl= scm.userRemoteConfigs[0].url
+
+    def repourl = scm.userRemoteConfigs?.getAt(0)?.url
+    echo "📦 Repositorio actual: ${repourl}"
     // checkout ([
     //     $class: 'GitSCM',
     //     branches: [[name: "*/${env.BRANCH_NAME}"]],
