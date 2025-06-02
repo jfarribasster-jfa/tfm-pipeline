@@ -29,7 +29,7 @@ node {
         userRemoteConfigs: [[url: repoUrl, credentialsId: 'UserGitHub']]
     ])
     // 💡 Verifica ubicación y contenido
-    sh 'pwd && find . -name build.yaml || echo "build.yaml no encontrado"'
+    sh 'ls -lrt'
     datas = readYaml file: 'build.yaml'  
 }
 
