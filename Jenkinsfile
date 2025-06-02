@@ -19,11 +19,11 @@ node {
             '''
         }
     }
-    def repoUrl = scm.userRemoteConfigs[0].url
+    
     checkout ([
         $class: 'GitSCM',
         branches: [[name: "*/${env.BRANCH_NAME}"]],
-        userRemoteConfigs: [[url: "$repoUrl", credentialsId: 'UserGitHub']]
+        userRemoteConfigs: [[url: scm.userRemoteConfigs[0].url, credentialsId: 'UserGitHub']]
     ])
     datas = readYaml file: 'build.yaml'  
 }
@@ -39,11 +39,14 @@ pipeline {
     environment {
         AWS_REGION = "us-east-1"
         CLUSTER_NAME = "tfm-cluster-jfa"
+        REPO_URL = scm.userRemoteConfigs[0].url
+
     }
     stages {
         stage('login') {   
             steps {
                 echo 'login...'
+                echo "REPO_URL: ${REPO_URL}"
                 //this.login()
             }
         }    
