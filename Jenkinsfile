@@ -28,6 +28,8 @@ node {
         branches: [[name: "*/${branch}"]],
         userRemoteConfigs: [[url: repoUrl, credentialsId: 'UserGitHub']]
     ])
+    // 💡 Verifica ubicación y contenido
+    sh 'pwd && find . -name build.yaml || echo "build.yaml no encontrado"'
     datas = readYaml file: 'build.yaml'  
 }
 
