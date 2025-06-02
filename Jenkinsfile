@@ -21,7 +21,7 @@ node {
     }
     checkout scm
 
-    def repourl = env.CHANGE_URL
+    def repourl = env.GITHUB_REPO_GIT_URL
     echo "📦 Repositorio actual: ${repourl}"
     // checkout ([
     //     $class: 'GitSCM',
