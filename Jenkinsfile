@@ -23,7 +23,7 @@ node {
     checkout ([
         $class: 'GitSCM',
         branches: [[name: "*/${env.BRANCH_NAME}"]],
-        userRemoteConfigs: [[url: "$repoUrl", credentialsId: 'git-credentials-id']]
+        userRemoteConfigs: [[url: "$repoUrl", credentialsId: 'UserGitHub']]
     ])
     datas = readYaml file: 'build.yaml'  
 }
