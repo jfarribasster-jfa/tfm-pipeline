@@ -18,7 +18,13 @@ node {
                 aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 186753268376.dkr.ecr.us-east-1.amazonaws.com/tfm/jenkins-agent
             '''
         }
-    } 
+    }
+    checkout ([
+        $class: 'GitSCM',
+        branches: [[name: "*/$gitTargetBranch"]],
+        userRemoteConfigs: [[url: "$gitlabTargetRepoHttpUrl", credentialsId: 'git-credentials-id']]
+    ])
+    datas = readYaml file: 'build.yaml'  
 }
 
 pipeline {
