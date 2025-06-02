@@ -21,7 +21,7 @@ node {
     }
     checkout scm
     def repoUrl = env.GITHUB_REPO_GIT_URL?.replaceFirst('git://', 'https://') ?: 'https://github.com/user/repo.git'
-    def branch = env.env.CHANGE_TARGET ?: 'main'
+    def branch = env.CHANGE_TARGET ?: 'main'
     echo "CHANGE_BRANCH: ${env.CHANGE_BRANCH}"
     checkout ([
         $class: 'GitSCM',
