@@ -42,6 +42,7 @@ pipeline {
     stages {
         stage('login') {   
             steps {
+                echo 'login...'
                 //this.login()
             }
         }    
