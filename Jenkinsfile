@@ -19,10 +19,11 @@ node {
             '''
         }
     }
+    def repoUrl = scm.userRemoteConfigs[0].url
     checkout ([
         $class: 'GitSCM',
-        branches: [[name: "*/$gitTargetBranch"]],
-        userRemoteConfigs: [[url: "$gitlabTargetRepoHttpUrl", credentialsId: 'git-credentials-id']]
+        branches: [[name: "*/${env.BRANCH_NAME}"]],
+        userRemoteConfigs: [[url: "$repoUrl", credentialsId: 'git-credentials-id']]
     ])
     datas = readYaml file: 'build.yaml'  
 }
