@@ -66,7 +66,7 @@ pipeline {
         }
         stage ('Unit Tests') {
             steps {
-                echo 'Running unit tests...'
+                echo 'Running unit tests...' 
                 sh '''
                     echo "Creando entorno virtual..."
                     python3 -m venv venv
@@ -77,7 +77,7 @@ pipeline {
 
                     echo "Ejecutando pruebas unitarias..."
                     mkdir -p reports
-                    pytest app/tests \
+                    cd app && pytest tests \
                         --junitxml=reports/test-results.xml \
                         --cov=app \
                         --cov-report=xml:reports/coverage.xml
