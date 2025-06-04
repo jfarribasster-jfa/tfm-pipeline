@@ -41,7 +41,7 @@ pipeline {
     environment {
         AWS_REGION = "us-east-1"
         CLUSTER_NAME = "tfm-cluster-jfa"
-        SONAR_HOST_URL = "http://ec2-18-206-146-113.compute-1.amazonaws.com:9000"
+        SONAR_HOST_URL = "http://ec2-54-173-75-44.compute-1.amazonaws.com:9000"
     }
     stages {
         stage ('Checkout Code') {
@@ -119,7 +119,7 @@ pipeline {
                 string(credentialsId: 'SonarQubeToken', variable: 'SONAR_TOKEN')
                 ]) { 
                     // Extrae el nombre del repo desde la URL de origen
-                    def repoUrl = scm.userRemoteConfigs[0]?.url
+                    def repoUrl = env.GITHUB_REPO_GIT_URL?: 'https://github.com/user/repo.git'
                     def repoName = repoUrl?.tokenize('/').last()?.replace('.git', '') ?: 'default-project'
                     sh '''
                         echo "Iniciando análisis de código estático..."
@@ -128,7 +128,7 @@ pipeline {
                             -Dsonar.projectKey=${repoName} \
                             -Dsonar.sources=. \
                             -Dsonar.host.url=$SONAR_HOST_URL \
-                        -Dsonar.login=$SONAR_TOKEN
+                            -Dsonar.login=$SONAR_TOKEN
                     '''
                 }
             } 
