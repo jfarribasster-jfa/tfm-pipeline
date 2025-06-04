@@ -113,7 +113,7 @@ pipeline {
 
  def static_code_analysis() {
     catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-    withSonarQubeEnv('SonarQube') {    
+    withSonarQubeEnv('SonarQubeUnir') {    
             withCredentials([
                 string(credentialsId: 'SonarQubeToken', variable: 'SONAR_TOKEN')
                 ]) {                        
