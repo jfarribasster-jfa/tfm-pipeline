@@ -78,9 +78,13 @@ pipeline {
                     echo "Ejecutando pruebas unitarias..."
                     mkdir -p reports
                     cd app && pytest tests \
-                        --junitxml=reports/test-results.xml \
-                        --cov=app \
-                        --cov-report=xml:reports/coverage.xml
+                        --junitxml=../reports/test-results.xml \
+                        --cov=. \
+                        --cov-report=xml:../reports/coverage.xml
+                    echo "Verificando archivos generados..."
+                    ls -lh reports/
+                    head -n 10 reports/coverage.xml || echo "⚠️ coverage.xml vacío o no encontrado"
+                    head -n 10 reports/test-results.xml || echo "⚠️ test-results.xml vacío o no encontrado"
                 '''
             }
         }
