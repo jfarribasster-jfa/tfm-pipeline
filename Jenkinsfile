@@ -44,7 +44,6 @@ pipeline {
     }
     stages {
         stage ('Checkout Code') {
-            post
             steps {
                 script {
                     def repoUrl = env.GITHUB_REPO_GIT_URL?.replaceFirst('git://', 'https://') ?: 'https://github.com/user/repo.git'
