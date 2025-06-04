@@ -124,7 +124,7 @@ pipeline {
                     def scannerHome = tool 'SonarQubeScanner'
                     sh '''
                         echo "Iniciando análisis de código estático..."
-                        sonar-scanner \
+                        ${scannerHome}/bin/sonar-scanner \
                             -Dsonar.projectKey=${repoName} \
                             -Dsonar.sources=. \
                             -Dsonar.host.url=$SONAR_HOST_URL \
