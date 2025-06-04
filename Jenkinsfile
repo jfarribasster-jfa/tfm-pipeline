@@ -64,6 +64,23 @@ pipeline {
                 //this.login()
             }
         }
+        stage ('Unit Tests') {
+            steps {
+                echo 'Running unit tests...'
+                sh '''
+                    echo "Instalando dependencias..."
+                    pip install -r app/requirements.txt
+                    pip install pytest pytest-cov pytest-xml
+
+                    echo "Ejecutando pruebas unitarias..."
+                    mkdir -p reports
+                    pytest app/tests \
+                        --junitxml=reports/test-results.xml \
+                        --cov=app \
+                        --cov-report=xml:reports/coverage.xml
+                '''
+            }
+        }
         stage('Static Code Analysis') {
             environment {
                 scannerHome = tool 'SonarQubeScanner'
