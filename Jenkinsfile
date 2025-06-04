@@ -69,7 +69,7 @@ pipeline {
                 echo 'Running unit tests...'
                 sh '''
                     echo "Creando entorno virtual..."
-                    python -m venv venv
+                    python3 -m venv venv
                     . venv/bin/activate
                     echo "Actualizando pip e instalando dependencias de test..."
                     pip install --upgrade pip
