@@ -122,7 +122,10 @@ pipeline {
                     def repoUrl = scm.userRemoteConfigs[0]?.url
                     def repoName = repoUrl?.tokenize('/').last()?.replace('.git', '') ?: 'default-project'
                     def scannerHome = tool 'SonarQubeScanner'
-                    sh "ls -l ${scannerHome}/bin"
+                    sh """
+                        echo 'Intentando ejecutar scanner directamente...'
+                        /var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/SonarQubeScanner/bin/sonar-scanner --version
+                    """
                     sh '''
                         echo "Iniciando análisis de código estático..."
                         ${scannerHome}/bin/sonar-scanner \
