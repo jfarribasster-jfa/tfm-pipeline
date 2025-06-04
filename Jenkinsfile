@@ -44,6 +44,7 @@ pipeline {
     }
     stages {
         stage ('Checkout Code') {
+            post
             steps {
                 script {
                     def repoUrl = env.GITHUB_REPO_GIT_URL?.replaceFirst('git://', 'https://') ?: 'https://github.com/user/repo.git'
@@ -61,6 +62,14 @@ pipeline {
             steps {
                 echo 'login...'
                 //this.login()
+            }
+        }
+        stage('Static Code Analysis') {
+            environment {
+                scannerHome = tool 'SonarQubeScanner'
+            }   
+            steps {
+                this.static_code_analysis()
             }
         }    
         stage('Build') {
@@ -101,4 +110,18 @@ pipeline {
             
         '''   
     }
- }                    
+ }                 
+
+ def static_code_analysis() {
+    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+    withSonarQubeEnv('SonarQube') {    
+            withCredentials([
+                string(credentialsId: 'SonarQubeToken', variable: 'SONAR_TOKEN')
+                ]) {                        
+                    sh '''
+                        echo "Iniciando análisis de código estático..."
+                    '''
+                }
+            } 
+    }
+ }
