@@ -41,6 +41,8 @@ pipeline {
     environment {
         AWS_REGION = "us-east-1"
         CLUSTER_NAME = "tfm-cluster-jfa"
+        REPO_URL = repoUrl
+        BRANCH = branch
     }
     stages {
         stage ('Checkout Code') {
@@ -48,8 +50,8 @@ pipeline {
                 echo 'Checking out code...'
                 checkout ([
                     $class: 'GitSCM',
-                    branches: [[name: "*/${branch}"]],
-                    userRemoteConfigs: [[url: repoUrl, credentialsId: 'UserGitHub']]
+                    branches: [[name: "*/${BRANCH}"]],
+                    userRemoteConfigs: [[url: "${REPO_URL}", credentialsId: 'UserGitHub']]
                 ])
             }
         }
