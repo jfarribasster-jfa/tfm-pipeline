@@ -146,7 +146,10 @@ pipeline {
                         sonar-scanner -v
                         sonar-scanner \
                             -Dsonar.projectKey=${repoName} \
-                            -Dsonar.sources=. \
+                            -Dsonar.sources=app \
+                            -Dsonar.exclusions=**/venv/**,**/__pycache__/**,**/*.pyc,**/tests/** \
+                            -Dsonar.python.coverage.reportPaths=reports/coverage.xml \
+                            -Dsonar.junit.reportPaths=reports/test-results.xml \
                             -Dsonar.host.url=$SONAR_HOST_URL \
                             -Dsonar.login=$SONAR_TOKEN
                     """
