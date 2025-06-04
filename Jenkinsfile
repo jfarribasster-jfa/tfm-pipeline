@@ -119,7 +119,7 @@ pipeline {
                 string(credentialsId: 'SonarQubeToken', variable: 'SONAR_TOKEN')
                 ]) { 
                     // Extrae el nombre del repo desde la URL de origen
-                    def repoUrl = env.GITHUB_REPO_GIT_URL?: 'https://github.com/user/repo.git'
+                    def repoUrl = env.GITHUB_REPO_GIT_URL?: 'https://github.com/user/repo.git' 
                     def repoName = repoUrl?.tokenize('/').last()?.replace('.git', '') ?: 'default-project'
                     sh '''
                         echo "Iniciando análisis de código estático..."
