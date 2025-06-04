@@ -41,18 +41,20 @@ pipeline {
     environment {
         AWS_REGION = "us-east-1"
         CLUSTER_NAME = "tfm-cluster-jfa"
-        REPO_URL = repoUrl
-        BRANCH = branch
     }
     stages {
         stage ('Checkout Code') {
-            steps {
-                echo 'Checking out code...'
-                checkout ([
-                    $class: 'GitSCM',
-                    branches: [[name: "*/${BRANCH}"]],
-                    userRemoteConfigs: [[url: "${REPO_URL}", credentialsId: 'UserGitHub']]
-                ])
+            script {
+                def repoUrl = env.GITHUB_REPO_GIT_URL?.replaceFirst('git://', 'https://') ?: 'https://github.com/user/repo.git'
+                def branch = env.CHANGE_TARGET ?: 'main'
+                steps {
+                    echo 'Checking out code...'
+                    checkout ([
+                        $class: 'GitSCM',
+                        branches: [[name: "*/${BRANCH}"]],
+                        userRemoteConfigs: [[url: "${REPO_URL}", credentialsId: 'UserGitHub']]
+                    ])
+                }
             }
         }
         stage('login') {   
