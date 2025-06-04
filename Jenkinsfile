@@ -44,10 +44,10 @@ pipeline {
     }
     stages {
         stage ('Checkout Code') {
-            script {
-                def repoUrl = env.GITHUB_REPO_GIT_URL?.replaceFirst('git://', 'https://') ?: 'https://github.com/user/repo.git'
-                def branch = env.CHANGE_TARGET ?: 'main'
-                steps {
+            steps {
+                script {
+                    def repoUrl = env.GITHUB_REPO_GIT_URL?.replaceFirst('git://', 'https://') ?: 'https://github.com/user/repo.git'
+                    def branch = env.CHANGE_TARGET ?: 'main'
                     echo 'Checking out code...'
                     checkout ([
                         $class: 'GitSCM',
