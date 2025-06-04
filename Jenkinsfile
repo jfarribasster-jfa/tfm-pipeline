@@ -51,8 +51,8 @@ pipeline {
                     echo 'Checking out code...'
                     checkout ([
                         $class: 'GitSCM',
-                        branches: [[name: "*/${BRANCH}"]],
-                        userRemoteConfigs: [[url: "${REPO_URL}", credentialsId: 'UserGitHub']]
+                        branches: [[name: "*/${branch}"]],
+                        userRemoteConfigs: [[url: repoUrl, credentialsId: 'UserGitHub']]
                     ])
                 }
             }
