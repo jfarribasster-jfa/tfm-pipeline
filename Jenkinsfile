@@ -68,9 +68,12 @@ pipeline {
             steps {
                 echo 'Running unit tests...'
                 sh '''
-                    echo "Instalando dependencias..."
+                    echo "Creando entorno virtual..."
+                    python -m venv venv
+                    . venv/bin/activate
+                    echo "Actualizando pip e instalando dependencias de test..."
+                    pip install --upgrade pip
                     pip install -r app/requirements_test.txt
-                    pip install pytest pytest-cov pytest-xml
 
                     echo "Ejecutando pruebas unitarias..."
                     mkdir -p reports
