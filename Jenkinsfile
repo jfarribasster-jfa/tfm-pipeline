@@ -121,7 +121,7 @@ pipeline {
                     // Extrae el nombre del repo desde la URL de origen
                     def repoUrl = scm.userRemoteConfigs[0]?.url
                     def repoName = repoUrl?.tokenize('/').last()?.replace('.git', '') ?: 'default-project'
-
+                    def scannerHome = tool 'SonarQubeScanner'
                     sh '''
                         echo "Iniciando análisis de código estático..."
                         sonar-scanner \
