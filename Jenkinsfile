@@ -121,7 +121,7 @@ pipeline {
                     // Extrae el nombre del repo desde la URL de origen
                     def repoUrl = env.GITHUB_REPO_GIT_URL?: 'https://github.com/user/repo.git' 
                     def repoName = repoUrl?.tokenize('/').last()?.replace('.git', '') ?: 'default-project'
-                    sh '''
+                    sh """
                         echo "Iniciando análisis de código estático..."
                         sonar-scanner -v
                         sonar-scanner \
@@ -129,7 +129,7 @@ pipeline {
                             -Dsonar.sources=. \
                             -Dsonar.host.url=$SONAR_HOST_URL \
                             -Dsonar.login=$SONAR_TOKEN
-                    '''
+                    """
                 }
             } 
     }
