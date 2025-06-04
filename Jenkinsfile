@@ -22,7 +22,6 @@ node {
     checkout scm
     def repoUrl = env.GITHUB_REPO_GIT_URL?.replaceFirst('git://', 'https://') ?: 'https://github.com/user/repo.git'
     def branch = env.CHANGE_TARGET ?: 'main'
-    echo "CHANGE_BRANCH: ${env.CHANGE_BRANCH}"
     checkout ([
         $class: 'GitSCM',
         branches: [[name: "*/${branch}"]],
@@ -44,6 +43,16 @@ pipeline {
         CLUSTER_NAME = "tfm-cluster-jfa"
     }
     stages {
+        stage ('Checkout Code') {
+            steps {
+                echo 'Checking out code...'
+                checkout ([
+                    $class: 'GitSCM',
+                    branches: [[name: "*/${branch}"]],
+                    userRemoteConfigs: [[url: repoUrl, credentialsId: 'UserGitHub']]
+                ])
+            }
+        }
         stage('login') {   
             steps {
                 echo 'login...'
