@@ -183,13 +183,18 @@ def build_push () {
         string(credentialsId: 'aws-session-token', variable: 'AWS_SESSION_TOKEN')
     ]) {
         def map = datas.phases.build.dockerfile
-        def dockerConfig = '/tmp/.docker'      
+        def dockerConfig = '/tmp/.docker'
+        // Extrae el nombre del repo desde la URL de origen
+        def repoUrl = env.GITHUB_REPO_GIT_URL?: 'https://github.com/user/repo.git' 
+        def repoName = repoUrl?.tokenize('/').last()?.replace('.git', '') ?: 'default-project'      
         // looping map containing dockerfile and version
         sh """
             echo "Autenticando en AWS..."
             export DOCKER_CONFIG=${dockerConfig}
             mkdir -p \$DOCKER_CONFIG
-            aws sts get-caller-identity      
+            echo "Iniciando sesión en ECR..."
+            aws sts get-caller-identity 
+            aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${ECR}${repoName}    
         """
         map.each{k, v -> 
             buildAndPush("${ECR}","${k}","${v}","${datas.phases.build.cache}")
