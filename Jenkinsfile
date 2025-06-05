@@ -63,14 +63,6 @@ pipeline {
         stage('login') {   
             steps {
                 echo 'login...'
-                sh '''
-                    echo "Usuario: $(whoami)"
-                    echo "HOME: $HOME"
-                    echo "Contenido de \$HOME:"
-                    ls -ld $HOME
-                    ls -la $HOME/.docker || echo ".docker no existe"
-                    '''
-
                 this.login()
             }
         }
@@ -135,6 +127,8 @@ pipeline {
         def repoName = repoUrl?.tokenize('/').last()?.replace('.git', '') ?: 'default-project'
         sh """
             echo "Autenticando en AWS..."
+            export DOCKER_CONFIG=/tmp/.docker
+            mkdir -p $DOCKER_CONFIG
             aws sts get-caller-identity
             
             echo "Iniciando sesión en ECR..."
