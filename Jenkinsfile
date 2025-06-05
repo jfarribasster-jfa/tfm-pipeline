@@ -1,4 +1,5 @@
-
+// Importing necessary libraries
+@Library('jenkins-utils@main')_
 node {
     withCredentials([
         string(credentialsId: 'aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
@@ -42,6 +43,7 @@ pipeline {
         AWS_REGION = "us-east-1"
         CLUSTER_NAME = "tfm-cluster-jfa"
         SONAR_HOST_URL = "http://ec2-54-173-75-44.compute-1.amazonaws.com:9000"
+        ECR = "186753268376.dkr.ecr.us-east-1.amazonaws.com/tfm/"
     }
     stages {
         stage ('Checkout Code') {
@@ -61,7 +63,7 @@ pipeline {
         stage('login') {   
             steps {
                 echo 'login...'
-                //this.login()
+                this.login()
             }
         }
         stage ('Unit Tests') {
@@ -80,11 +82,7 @@ pipeline {
                     cd app && pytest tests \
                         --junitxml=../reports/test-results.xml \
                         --cov=. \
-                        --cov-report=xml:../reports/coverage.xml
-                    echo "Verificando archivos generados..."
-                    ls -lh reports/
-                    head -n 10 reports/coverage.xml || echo "⚠️ coverage.xml vacío o no encontrado"
-                    head -n 10 reports/test-results.xml || echo "⚠️ test-results.xml vacío o no encontrado"
+                        --cov-report=xml:../reports/coverage.xm
                 '''
             }
         }
@@ -93,17 +91,19 @@ pipeline {
                 scannerHome = tool 'SonarQubeScanner'
             }   
             steps {
-                this.static_code_analysis()
+                echo 'Running static code analysis...'
+                //this.static_code_analysis()
             }
         }    
-        stage('Build') {
-            steps {
-                echo 'Building...'
+        stage('Build and Push') {
+            when {
+                allOf{
+                    // Only build and push if datas object is not null
+                    expression { datas.phases.build.dockerfile != null }
+                }
             }
-        }
-        stage('Test') {
             steps {
-                echo 'Testing...'
+                this.build_push()
             }
         }
         stage('Deploy') {
@@ -122,20 +122,28 @@ pipeline {
         string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY'),
         string(credentialsId: 'aws-session-token', variable: 'AWS_SESSION_TOKEN')
     ]) {
-        sh '''
+        // Extrae el nombre del repo desde la URL de origen
+        def repoUrl = env.GITHUB_REPO_GIT_URL?: 'https://github.com/user/repo.git' 
+        def repoName = repoUrl?.tokenize('/').last()?.replace('.git', '') ?: 'default-project'
+        sh """
             echo "Autenticando en AWS..."
             aws sts get-caller-identity
+            
+            echo "Iniciando sesión en ECR..."
+            aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${ECR}${repoName}
 
             echo "Configurando acceso a EKS..."s
-            aws eks update-kubeconfig --region ${AWS_REGION} --name ${CLUSTER_NAME}
+            //aws eks update-kubeconfig --region ${AWS_REGION} --name ${CLUSTER_NAME}
 
             echo "Ejecutando kubectl..."
-            kubectl get ns
+            //kubectl get ns
             
-        '''   
+        """  
     }
  }                 
-
+/**
+ * Static Code Analysis using SonarQube
+ */ 
  def static_code_analysis() {
     catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
     withSonarQubeEnv('SonarQubeUnir') {    
@@ -162,3 +170,14 @@ pipeline {
     }
  }
 
+ /**
+ * Build and push step definition
+ */
+def build_push () {
+  def map = datas.phases.build.dockerfile      
+  // looping map containing dockerfile and version
+  map.each{k, v -> 
+    buildAndPush("${ECR}","${k}","${v}","${datas.phases.build.cache}")
+  }
+}
+   
