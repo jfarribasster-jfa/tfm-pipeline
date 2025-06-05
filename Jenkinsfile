@@ -35,7 +35,7 @@ pipeline {
     agent {
         docker {
             image "186753268376.dkr.ecr.us-east-1.amazonaws.com/tfm/jenkins-agent:1.0"
-            args '-u jenkins -v /var/run/docker.sock:/var/run/docker.sock'
+            args '-v /var/run/docker.sock:/var/run/docker.sock'
             reuseNode true
             alwaysPull true
         }
