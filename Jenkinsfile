@@ -63,6 +63,14 @@ pipeline {
         stage('login') {   
             steps {
                 echo 'login...'
+                sh '''
+                    echo "Usuario: $(whoami)"
+                    echo "HOME: $HOME"
+                    echo "Contenido de \$HOME:"
+                    ls -ld $HOME
+                    ls -la $HOME/.docker || echo ".docker no existe"
+                    '''
+
                 this.login()
             }
         }
