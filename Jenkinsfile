@@ -136,10 +136,10 @@ pipeline {
             aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${ECR}${repoName}
 
             echo "Configurando acceso a EKS..."s
-            //aws eks update-kubeconfig --region ${AWS_REGION} --name ${CLUSTER_NAME}
+            #aws eks update-kubeconfig --region ${AWS_REGION} --name ${CLUSTER_NAME}
 
             echo "Ejecutando kubectl..."
-            //kubectl get ns
+            #kubectl get ns
             
         """  
     }
