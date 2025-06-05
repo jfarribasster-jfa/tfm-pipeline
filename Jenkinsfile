@@ -37,7 +37,6 @@ pipeline {
             image "186753268376.dkr.ecr.us-east-1.amazonaws.com/tfm/jenkins-agent:1.0"
             reuseNode true
             alwaysPull true
-            args '-u jenkins'
         }
     }
     environment {
