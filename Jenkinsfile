@@ -182,7 +182,8 @@ def build_push () {
         string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY'),
         string(credentialsId: 'aws-session-token', variable: 'AWS_SESSION_TOKEN')
     ]) {
-        def map = datas.phases.build.dockerfile      
+        def map = datas.phases.build.dockerfile
+        def dockerConfig = '/tmp/.docker'      
         // looping map containing dockerfile and version
         sh """
             echo "Autenticando en AWS..."
