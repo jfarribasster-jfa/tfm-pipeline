@@ -177,10 +177,22 @@ pipeline {
  * Build and push step definition
  */
 def build_push () {
-  def map = datas.phases.build.dockerfile      
-  // looping map containing dockerfile and version
-  map.each{k, v -> 
-    buildAndPush("${ECR}","${k}","${v}","${datas.phases.build.cache}")
-  }
+   withCredentials([
+        string(credentialsId: 'aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
+        string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY'),
+        string(credentialsId: 'aws-session-token', variable: 'AWS_SESSION_TOKEN')
+    ]) {
+        def map = datas.phases.build.dockerfile      
+        // looping map containing dockerfile and version
+        sh """
+            echo "Autenticando en AWS..."
+            export DOCKER_CONFIG=${dockerConfig}
+            mkdir -p \$DOCKER_CONFIG
+            aws sts get-caller-identity      
+        """
+        map.each{k, v -> 
+            buildAndPush("${ECR}","${k}","${v}","${datas.phases.build.cache}")
+        }
+    }
 }
    
