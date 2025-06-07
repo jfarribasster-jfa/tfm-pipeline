@@ -221,8 +221,8 @@ def build_push () {
  * Deploy step definition
  */
 def deploy() {
-    sh "chmod +x tools/*"
-    sh "cp tools/*.sh ${datas.phases.deploy.path}"
+    sh "chmod +x *.sh"
+    sh "cp *.sh ${datas.phases.deploy.path}"
     // Extrae el nombre del repo desde la URL de origen
     def repoUrl = env.GITHUB_REPO_GIT_URL?: 'https://github.com/user/repo.git' 
     def repoName = repoUrl?.tokenize('/').last()?.replace('.git', '') ?: 'default-project'
