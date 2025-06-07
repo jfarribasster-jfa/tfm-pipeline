@@ -94,7 +94,7 @@ pipeline {
             }   
             steps {
                 echo 'Running static code analysis...'
-                //this.static_code_analysis()
+                this.static_code_analysis()
             }
         }    
         stage('Build and Push') {
