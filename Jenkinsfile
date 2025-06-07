@@ -53,12 +53,18 @@ pipeline {
                     def repoUrl = env.GITHUB_REPO_GIT_URL?.replaceFirst('git://', 'https://') ?: 'https://github.com/user/repo.git'
                     def branch = env.CHANGE_TARGET ?: 'main'
                     echo 'Checking out code...'
+                    checkout([
+                        $class: 'GitSCM',
+                        branches: [[name: "*/main"]],
+                        extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'tools']],
+                        userRemoteConfigs: [[url: 'https://github.com/jfarribasster-jfa/platform-src-utils.git', credentialsId: 'UserGitHub']],
+                        extensions: [[$class: 'CleanBeforeCheckout']]
+                    ])
                     checkout ([
                         $class: 'GitSCM',
                         branches: [[name: "*/${branch}"]],
                         userRemoteConfigs: [[url: repoUrl, credentialsId: 'UserGitHub']]
                     ])
-
                 }
             }
         }
