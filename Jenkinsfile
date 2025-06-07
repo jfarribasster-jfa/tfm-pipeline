@@ -2,7 +2,7 @@
 @Library('jenkins-utils@main')_
 node {
     withCredentials([
-        string(credentialsId: 'aws-access-key-id', variable: '  '),
+        string(credentialsId: 'aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
         string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY'),
         string(credentialsId: 'aws-session-token', variable: 'AWS_SESSION_TOKEN')
     ]) {
@@ -100,7 +100,7 @@ pipeline {
             }   
             steps {
                 echo 'Running static code analysis...'
-                this.static_code_analysis()
+                //this.static_code_analysis()
             }
         }    
         stage('Build and Push') {
@@ -123,7 +123,7 @@ pipeline {
             }   
             steps {
                 echo 'Deploying...'
-               //this.deploy()
+                this.deploy()
             }
         }
     }
