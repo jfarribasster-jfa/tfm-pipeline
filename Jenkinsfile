@@ -2,7 +2,7 @@
 @Library('jenkins-utils@main')_
 node {
     withCredentials([
-        string(credentialsId: 'aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
+        string(credentialsId: 'aws-access-key-id', variable: '  '),
         string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY'),
         string(credentialsId: 'aws-session-token', variable: 'AWS_SESSION_TOKEN')
     ]) {
@@ -58,6 +58,13 @@ pipeline {
                         branches: [[name: "*/${branch}"]],
                         userRemoteConfigs: [[url: repoUrl, credentialsId: 'UserGitHub']]
                     ])
+                    checkout([
+                        $class: 'GitSCM',
+                        branches: [[name: "*/main"]],
+                        extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'tools']],
+                        userRemoteConfigs: [[url: 'https://github.com/jfarribasster-jfa/platform-src-utils.git', credentialsId: 'UserGitHub']],
+                        extensions: [[$class: 'CleanBeforeCheckout']]
+                    ])
                 }
             }
         }
@@ -93,7 +100,7 @@ pipeline {
             }   
             steps {
                 echo 'Running static code analysis...'
-                //this.static_code_analysis()
+                this.static_code_analysis()
             }
         }    
         stage('Build and Push') {
@@ -108,8 +115,15 @@ pipeline {
             }
         }
         stage('Deploy') {
+            when {
+                allOf{
+                    // Only deploy if datas object is yes
+                    expression { "${datas.phases.deploy.enabled}" == "yes" }
+                }
+            }   
             steps {
                 echo 'Deploying...'
+               //this.deploy()
             }
         }
     }
@@ -202,4 +216,36 @@ def build_push () {
         }
     }
 }
-   
+
+/**
+ * Deploy step definition
+ */
+def deploy() {
+    sh "chmod +x tools/*"
+    sh "cp tools/*.sh ${datas.phases.deploy.path}"
+    // Extrae el nombre del repo desde la URL de origen
+    def repoUrl = env.GITHUB_REPO_GIT_URL?: 'https://github.com/user/repo.git' 
+    def repoName = repoUrl?.tokenize('/').last()?.replace('.git', '') ?: 'default-project'
+    def branch = env.CHANGE_TARGET ?: 'main'
+    def KV_PATH = "${repoName}/${branch}"
+    catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+        withCredentials([
+            string(credentialsId: 'vault_adminKV', variable: 'SECRETID'),
+        ]) {
+            script {
+                ROLE_ID=""
+                // Deploy manifest files
+                dir("${datas.phases.deploy.manifest}") {
+                    def files = datas.phases.deploy.files
+                    files.each { file ->
+                        echo "Applying manifest file: ${file}"
+                        sh """
+                            ./replace-secrets.sh ${KV_PATH} ${file} ${SECRETID}
+                            # kubectl apply -f ./${file} 
+                        """
+                    }   
+                }
+            }
+        }
+    }
+}
