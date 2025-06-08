@@ -43,7 +43,7 @@ pipeline {
     environment {
         AWS_REGION = "us-east-1"
         CLUSTER_NAME = "tfm-cluster-jfa"
-        SONAR_HOST_URL = "http://ec2-54-173-75-44.compute-1.amazonaws.com:9000"
+        SONAR_HOST_URL = "http://ec2-44-203-170-52.compute-1.amazonaws.com:9000"
         ECR = "186753268376.dkr.ecr.us-east-1.amazonaws.com/tfm/"
     }
     stages {
@@ -89,7 +89,7 @@ pipeline {
                     cd app && pytest tests \
                         --junitxml=../reports/test-results.xml \
                         --cov=. \
-                        --cov-report=xml:../reports/coverage.xm
+                        --cov-report=xml:../reports/coverage.xml
                 '''
             }
         }
