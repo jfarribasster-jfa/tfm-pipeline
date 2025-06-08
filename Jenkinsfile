@@ -221,6 +221,13 @@ def build_push () {
  * Deploy step definition
  */
 def deploy() {
+
+    sh '''
+        echo "PWD: $(pwd)"
+        echo "Archivos disponibles:"
+        ls -l
+    '''
+
     sh "chmod +x *.sh"
     sh "cp *.sh ${datas.phases.deploy.path}"
     // Extrae el nombre del repo desde la URL de origen
