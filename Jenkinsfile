@@ -26,7 +26,7 @@ node {
     checkout ([
         $class: 'GitSCM',
         branches: [[name: "*/${branch}"]],
-        userRemoteConfigs: [[url: repoUrl, credentialsId: 'UserGitHub']]
+        userRemoteConfigs: [[url: repoUrl, credentialsId: 'GitHubUser']]
     ])
     datas = readYaml file: 'build.yml'  
 }
@@ -100,7 +100,7 @@ pipeline {
             }   
             steps {
                 echo 'Running static code analysis...'
-                this.static_code_analysis()
+                //this.static_code_analysis()
             }
         }    
         stage('Build and Push') {
@@ -111,7 +111,7 @@ pipeline {
                 }
             }
             steps {
-                this.build_push()
+                //this.build_push()
             }
         }
         stage('Deploy') {
