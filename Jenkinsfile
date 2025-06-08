@@ -111,6 +111,7 @@ pipeline {
                 }
             }
             steps {
+                echo 'Running build and push...'
                 //this.build_push()
             }
         }
