@@ -56,13 +56,14 @@ pipeline {
                     checkout([
                         $class: 'GitSCM',
                         branches: [[name: "*/main"]],
-                        userRemoteConfigs: [[url: 'https://github.com/jfarribasster-jfa/platform-src-utils.git', credentialsId: 'UserGitHub']],
+                        userRemoteConfigs: [[url: 'https://github.com/jfarribasster-jfa/platform-src-utils.git', credentialsId: 'GitHubUser']],
                         extensions: [[$class: 'CleanBeforeCheckout']]
                     ])
                     checkout ([
                         $class: 'GitSCM',
                         branches: [[name: "*/${branch}"]],
-                        userRemoteConfigs: [[url: repoUrl, credentialsId: 'UserGitHub']]
+                        userRemoteConfigs: [[url: repoUrl, credentialsId: 'GitHubUser']],
+                        extensions: [[$class: 'CleanBeforeCheckout']]
                     ])
                 }
             }
