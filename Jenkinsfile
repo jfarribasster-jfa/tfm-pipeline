@@ -57,7 +57,8 @@ pipeline {
                         $class: 'GitSCM',
                         branches: [[name: "*/main"]],
                         userRemoteConfigs: [[url: 'https://github.com/jfarribasster-jfa/platform-src-utils.git', credentialsId: 'GitHubUser']],
-                        extensions: [[$class: 'CleanBeforeCheckout', relativeTargetDir: 'tools']]
+                        extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'tools']],
+                        [$class: 'CleanBeforeCheckout']
                     ])
                     checkout ([
                         $class: 'GitSCM',
