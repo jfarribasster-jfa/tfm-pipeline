@@ -225,8 +225,6 @@ def build_push () {
 def deploy() {
     sh "chmod +x tools/*.sh"
     sh "cp tools/*.sh ${datas.phases.deploy.path}"
-    sh "pwd"
-    sh "ls -lrt"
     sh "ls -lrt ${datas.phases.deploy.path}"
     // Extrae el nombre del repo desde la URL de origen
     def repoUrl = env.GITHUB_REPO_GIT_URL?: 'https://github.com/user/repo.git' 
@@ -240,15 +238,13 @@ def deploy() {
             script {
                 ROLE_ID="ca2ebf5d-935b-ce62-75c4-66d1030a101b"
                 // Deploy manifest files
-                dir("${datas.phases.deploy.manifest}") {
+                dir("${datas.phases.deploy.path}") {
                     def files = datas.phases.deploy.files
                     files.each { file ->
                         echo "Applying manifest k8s file: ${file}"
                         sh """
-                            pwd
-                            ls -lrt
-                            ls -lrt ./kube
-                            ./kube/replace-secrets.sh ${KV_PATH} ${file} ${SECRETID}
+                            echo "PWD: \$PWD"
+                            ./replace-secrets.sh ${KV_PATH} ${file} ${SECRETID}
                             # kubectl apply -f ./${file} 
                         """
                     }   
