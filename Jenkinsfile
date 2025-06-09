@@ -242,7 +242,7 @@ def deploy() {
                     files.each { file ->
                         echo "Applying manifest k8s file: ${file}"
                         sh """
-                            ./replace-secrets.sh ${KV_PATH} ${file} ${SECRETID}
+                            ./replace-secrets.sh ${KV_PATH} ${file} ${ROLE_ID} ${SECRETID}
                             # kubectl apply -f ./${file} 
                         """
                     }   
