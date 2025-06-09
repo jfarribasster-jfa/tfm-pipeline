@@ -225,6 +225,7 @@ def build_push () {
 def deploy() {
     sh "chmod +x tools/*.sh"
     sh "cp tools/*.sh ${datas.phases.deploy.path}"
+    sh "pwd"
     sh "ls -lrt"
     sh "ls -lrt ${datas.phases.deploy.path}"
     // Extrae el nombre del repo desde la URL de origen
@@ -244,6 +245,7 @@ def deploy() {
                     files.each { file ->
                         echo "Applying manifest k8s file: ${file}"
                         sh """
+                            pwd
                             ls -lrt
                             ls -lrt ./kube
                             ./kube/replace-secrets.sh ${KV_PATH} ${file} ${SECRETID}
