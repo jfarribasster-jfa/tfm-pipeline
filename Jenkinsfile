@@ -223,15 +223,8 @@ def build_push () {
  * Deploy step definition
  */
 def deploy() {
-
-    sh '''
-        echo "PWD: $(pwd)"
-        echo "Archivos disponibles:"
-        ls -l
-    '''
-
-    sh "chmod +x *.sh"
-    sh "cp *.sh ${datas.phases.deploy.path}"
+    sh "chmod +x tools/*.sh"
+    sh "cp tools/*.sh ${datas.phases.deploy.path}"
     // Extrae el nombre del repo desde la URL de origen
     def repoUrl = env.GITHUB_REPO_GIT_URL?: 'https://github.com/user/repo.git' 
     def repoName = repoUrl?.tokenize('/').last()?.replace('.git', '') ?: 'default-project'
@@ -242,7 +235,7 @@ def deploy() {
             string(credentialsId: 'vault_adminKV', variable: 'SECRETID'),
         ]) {
             script {
-                ROLE_ID=""
+                ROLE_ID="ca2ebf5d-935b-ce62-75c4-66d1030a101b"
                 // Deploy manifest files
                 dir("${datas.phases.deploy.manifest}") {
                     def files = datas.phases.deploy.files
