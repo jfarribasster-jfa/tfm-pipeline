@@ -240,7 +240,7 @@ def deploy() {
                 dir("${datas.phases.deploy.manifest}") {
                     def files = datas.phases.deploy.files
                     files.each { file ->
-                        echo "Applying manifest file: ${file}"
+                        echo "Applying manifest k8s file: ${file}"
                         sh """
                             ./kube/replace-secrets.sh ${KV_PATH} ${file} ${SECRETID}
                             # kubectl apply -f ./${file} 
