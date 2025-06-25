@@ -143,14 +143,13 @@ pipeline {
         def repoUrl = env.GITHUB_REPO_GIT_URL?: 'https://github.com/user/repo.git' 
         def repoName = repoUrl?.tokenize('/').last()?.replace('.git', '') ?: 'default-project'
         def dockerConfig = '/tmp/.docker'
-        def kubeConfig = '/tmp/.kube'
-        def kubeConfigFile = "${kubeConfig}/config"
+        def kubeHome = '/tmp/kubehome'
         sh """
             echo "Autenticando en AWS..."
             export DOCKER_CONFIG=${dockerConfig}
-            export KUBECONFIG=${kubeConfigFile}
+            export HOME=${kubeHome}
             mkdir -p \$DOCKER_CONFIG
-            mkdir -p \$KUBECONFIG
+            mkdir -p ${kubeHome}/.kube
             aws sts get-caller-identity
             
             echo "Iniciando sesión en ECR..."
