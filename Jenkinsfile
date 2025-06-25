@@ -237,6 +237,9 @@ def deploy() {
     catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
         withCredentials([
             string(credentialsId: 'vault_adminKV', variable: 'SECRETID'),
+            string(credentialsId: 'aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
+            string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY'),
+            string(credentialsId: 'aws-session-token', variable: 'AWS_SESSION_TOKEN')
         ]) {
             script {
                 ROLE_ID="ca2ebf5d-935b-ce62-75c4-66d1030a101b"
