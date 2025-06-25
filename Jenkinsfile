@@ -160,7 +160,7 @@ pipeline {
 
             echo "Ejecutando kubectl..."
             kubectl get ns
-            kubectl create namespace rsvpapp || echo "Namespace rsvpapp ya existe"
+            #kubectl create namespace rsvpapp || echo "Namespace rsvpapp ya existe"
             #aws ecr get-login-password --region us-east-1 | kubectl create secret docker-registry regcred --docker-server=186753268376.dkr.ecr.us-east-1.amazonaws.com --docker-username=AWS --docker-password="\$(cat -)" --namespace rsvpapp
         """  
     }
@@ -247,7 +247,7 @@ def deploy() {
                         echo "Applying manifest k8s file: ${file}"
                         sh """
                             ./replace-secrets.sh ${KV_PATH} ${file} ${ROLE_ID} ${SECRETID}
-                            # kubectl apply -f ./${file} 
+                            kubectl apply -f ./${file} 
                         """
                     }   
                 }
