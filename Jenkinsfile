@@ -144,7 +144,7 @@ pipeline {
         def repoName = repoUrl?.tokenize('/').last()?.replace('.git', '') ?: 'default-project'
         def dockerConfig = '/tmp/.docker'
         def kubeConfig = '/tmp/.kube'
-        def kubeConfigFile = "${kubeConfigDir}/config"
+        def kubeConfigFile = "${kubeConfig}/config"
         sh """
             echo "Autenticando en AWS..."
             export DOCKER_CONFIG=${dockerConfig}
