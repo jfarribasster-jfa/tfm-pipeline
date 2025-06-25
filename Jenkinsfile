@@ -249,6 +249,8 @@ def deploy() {
                         sh """
                             ./replace-secrets.sh ${KV_PATH} ${file} ${ROLE_ID} ${SECRETID}
                             export HOME=${kubeHome}
+                            aws sts get-caller-identity
+                            aws eks update-kubeconfig --region ${AWS_REGION} --name ${CLUSTER_NAME}
                             kubectl apply -f ./${file} 
                         """
                     }   
