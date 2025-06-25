@@ -156,7 +156,7 @@ pipeline {
             #aws eks update-kubeconfig --region ${AWS_REGION} --name ${CLUSTER_NAME}
 
             echo "Ejecutando kubectl..."
-            #kubectl get ns
+            kubectl get ns
             
         """  
     }
