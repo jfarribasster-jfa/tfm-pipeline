@@ -240,6 +240,7 @@ def deploy() {
         ]) {
             script {
                 ROLE_ID="ca2ebf5d-935b-ce62-75c4-66d1030a101b"
+                  def kubeHome = '/tmp/kubehome'
                 // Deploy manifest files
                 dir("${datas.phases.deploy.path}") {
                     def files = datas.phases.deploy.files
@@ -247,6 +248,7 @@ def deploy() {
                         echo "Applying manifest k8s file: ${file}"
                         sh """
                             ./replace-secrets.sh ${KV_PATH} ${file} ${ROLE_ID} ${SECRETID}
+                            export HOME=${kubeHome}
                             kubectl apply -f ./${file} 
                         """
                     }   
