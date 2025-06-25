@@ -144,10 +144,11 @@ pipeline {
         def repoName = repoUrl?.tokenize('/').last()?.replace('.git', '') ?: 'default-project'
         def dockerConfig = '/tmp/.docker'
         def kubeConfig = '/tmp/.kube'
+        def kubeConfigFile = "${kubeConfigDir}/config"
         sh """
             echo "Autenticando en AWS..."
             export DOCKER_CONFIG=${dockerConfig}
-            export KUBECONFIG=${kubeConfig}
+            export KUBECONFIG=${kubeConfigFile}
             mkdir -p \$DOCKER_CONFIG
             mkdir -p \$KUBECONFIG
             aws sts get-caller-identity
@@ -156,7 +157,7 @@ pipeline {
             aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${ECR}${repoName}
 
             echo "Configurando acceso a EKS..."s
-            aws eks update-kubeconfig --region ${AWS_REGION} --name ${CLUSTER_NAME}
+            aws eks update-kubeconfig --region ${AWS_REGION} --name ${CLUSTER_NAME} --kubeconfig
 
             echo "Ejecutando kubectl..."
             kubectl get ns
