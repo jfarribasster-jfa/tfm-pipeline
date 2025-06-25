@@ -160,6 +160,8 @@ pipeline {
 
             echo "Ejecutando kubectl..."
             kubectl get ns
+            kubectl create namespace rsvpapp || echo "Namespace rsvpapp ya existe"
+            kubectl create secret docker-registry regcred --docker-server=186753268376.dkr.ecr.us-east-1.amazonaws.com --docker-username=AWS --docker-password-stdin --namespace rsvpapp
             
         """  
     }
