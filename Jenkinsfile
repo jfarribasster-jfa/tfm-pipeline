@@ -43,7 +43,7 @@ pipeline {
     environment {
         AWS_REGION = "us-east-1"
         CLUSTER_NAME = "tfm-cluster-jfa"
-        SONAR_HOST_URL = "http://ec2-44-203-170-52.compute-1.amazonaws.com:9000"
+        SONAR_HOST_URL = "http://ec2-44-197-123-169.compute-1.amazonaws.com:9000"
         ECR = "110341083230.dkr.ecr.us-east-1.amazonaws.com//tfm/"
     }
     stages {
@@ -101,7 +101,7 @@ pipeline {
             }   
             steps {
                 echo 'Running static code analysis...'
-                //this.static_code_analysis()
+                this.static_code_analysis()
             }
         }    
         stage('Build and Push') {
