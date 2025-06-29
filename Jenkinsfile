@@ -16,7 +16,7 @@ node {
                 echo "Verificando credenciales de AWS..."
                 aws sts get-caller-identity
                 echo "Iniciando sesión en ECR..."
-                aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 110341083230.dkr.ecr.us-east-1.amazonaws.com/tfm/jenkins-agent
+                aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 726122148382.dkr.ecr.us-east-1.amazonaws.com/tfm/jenkins-agent
             '''
         }
     }
@@ -34,7 +34,7 @@ node {
 pipeline {
     agent {
         docker {
-            image "110341083230.dkr.ecr.us-east-1.amazonaws.com/tfm/jenkins-agent:1.0"
+            image "726122148382.dkr.ecr.us-east-1.amazonaws.com/tfm/jenkins-agent:1.0"
             args '-v /var/run/docker.sock:/var/run/docker.sock'
             reuseNode true
             alwaysPull true
@@ -43,7 +43,7 @@ pipeline {
     environment {
         AWS_REGION = "us-east-1"
         CLUSTER_NAME = "tfm-cluster-jfa"
-        SONAR_HOST_URL = "http://ec2-44-200-201-227.compute-1.amazonaws.com:9000"
+        SONAR_HOST_URL = "http://ec2-54-210-207-177.compute-1.amazonaws.com:9000"
         ECR = "110341083230.dkr.ecr.us-east-1.amazonaws.com//tfm/"
     }
     stages {
@@ -161,7 +161,7 @@ pipeline {
             echo "Ejecutando kubectl..."
             #kubectl get ns
             #kubectl create namespace rsvpapp || echo "Namespace rsvpapp ya existe"
-            #aws ecr get-login-password --region us-east-1 | kubectl create secret docker-registry regcred --docker-server=186753268376.dkr.ecr.us-east-1.amazonaws.com --docker-username=AWS --docker-password="\$(cat -)" --namespace rsvpapp
+            #aws ecr get-login-password --region us-east-1 | kubectl create secret docker-registry regcred --docker-server=726122148382.dkr.ecr.us-east-1.amazonaws.com --docker-username=AWS --docker-password="\$(cat -)" --namespace rsvpapp
         """  
     }
  }                 
