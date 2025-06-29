@@ -242,7 +242,7 @@ def deploy() {
             string(credentialsId: 'aws-session-token', variable: 'AWS_SESSION_TOKEN')
         ]) {
             script {
-                ROLE_ID="ca2ebf5d-935b-ce62-75c4-66d1030a101b"
+                ROLE_ID="90e0490d-252d-d60a-bc55-c9a96f4edb2c"
                   def kubeHome = '/tmp/kubehome'
                 // Deploy manifest files
                 dir("${datas.phases.deploy.path}") {
