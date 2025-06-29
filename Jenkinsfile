@@ -113,7 +113,7 @@ pipeline {
             }
             steps {
                 echo 'Running build and push...'
-                //this.build_push()
+                this.build_push()
             }
         }
         stage('Deploy') {
