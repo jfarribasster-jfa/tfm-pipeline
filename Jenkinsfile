@@ -44,7 +44,7 @@ pipeline {
         AWS_REGION = "us-east-1"
         CLUSTER_NAME = "tfm-cluster-jfa"
         SONAR_HOST_URL = "http://ec2-54-210-207-177.compute-1.amazonaws.com:9000"
-        ECR = "110341083230.dkr.ecr.us-east-1.amazonaws.com//tfm/"
+        ECR = "726122148382.dkr.ecr.us-east-1.amazonaws.com//tfm/"
     }
     stages {
         stage ('Checkout Code') {
